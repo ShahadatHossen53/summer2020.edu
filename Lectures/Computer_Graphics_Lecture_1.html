@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Bootstrap Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+  <style>
+  </style>
+</head>
+<body>
+  
+<div class="container">
+  <h1 class="text-center"><i>Summer 2020</i></h1>
+</div>
+
+  <div class="container">
+    <h3 class="text-center">Computer Graphics</h3>
+    <h4 class="text-center">Lecture 1</h4>
+  </div>
+
+
+<nav class="navbar navbar-expand-md bg-dark navbar-dark">
+  <a class="navbar-brand" href="../index.html">Home</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="collapsibleNavbar">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link " href="../Communicative English.html">Communicative English</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link active" href="../Computer Graphics.html">Computer Graphics</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="../MATH.html">MATH (Probability & Statistics)</a>
+      </li> 
+      <li class="nav-item">
+        <a class="nav-link" href="../Software Engineering.html">Software Engineering and System and Design</a>
+      </li> 
+      <li class="nav-item">
+        <a class="nav-link" href="../Computer Graphics Lab.html">Computer Graphics Lab</a>
+      </li>    
+    </ul>
+  </div>  
+</nav>
+
+<div id="audios" class="container"></div>
+
+<div id="photos" class="container"></div>
+
+<div id="classRecordings" class="container"></div>
+
+<div class="p-3">
+  
+</div>
+
+
+
+<script type="text/javascript">
+
+  //////// Genarate Audio files HTML code //////////////
+  var numOfFile = 5;
+  var lectureName = "Computer_Graphics";
+  var lectureNumber = 1;
+
+  var filename1 = "../Files/"+lectureName+"_Lecture_"+lectureNumber+" (";
+  var filename2 = ").ogg";
+  var txt = "";
+  var textAudio1 = '<div class="row" ><div class="col-12"><audio controls><source src="';
+
+  var textAudio2 = ' "type="audio/ogg">Your browser does not support the audio element.</audio></div></div>';
+  var y = 1;
+  for(i =0; i<numOfFile; i++){
+    txt += textAudio1+filename1+y+filename2+textAudio2;
+    y++;
+  }
+  document.getElementById("audios").innerHTML = txt;
+
+
+
+  //////// Genarate Photo files HTML code //////////////
+  var numOfFile = 6;
+  var lectureName = "Computer_Graphics";
+  var lectureNumber = 1;
+
+  var filename1 = "../Files/"+lectureName+"_Lecture_"+lectureNumber+" (";
+  var filename2 = ").jpeg ";
+  var txt = '';
+  var txtrow = '<div class="row" >';
+  var textPhoto1 = '<div class="col-6"><a href="';
+  var textPhoto3 = '" target="_blank"><img src="';
+  var textPhoto4 = '" class="img-thumbnail mx-auto d-block" alt="class note" width="95%"> </a></div>';
+  var txtrowdiv = '</div>';
+
+  var y = 1;
+  for(i =0; i<numOfFile; i++){
+    txt += txtrow+textPhoto1+filename1+y+filename2+textPhoto3+filename1+y+filename2+textPhoto4;
+    i++;
+    y++;
+    if(i<numOfFile){
+       txt += textPhoto1+filename1+y+filename2+textPhoto3+filename1+y+filename2+textPhoto4+txtrowdiv;
+       y++;
+    }
+   
+  }
+  document.getElementById("photos").innerHTML = txt;
+
+
+
+  //////// Genarate Photo files HTML code //////////////
+
+  var links = ["https://drive.google.com/file/d/1jWZQUMo0AE-0RnmkJqYSmviziCMLJPwv/view",
+                "https://drive.google.com/file/d/1KJaFkL9fdsFK8w9fmsdtYehabE_bsE0u/view",
+                "https://drive.google.com/file/d/1CBkUc-ecUHFqY3HcJu3Mf1Lo7Q84m36B/view"
+              ];
+  var linkTitles = ["Class Recording",
+                    "Class Recording",
+                    "Course Outline"
+                  ];
+  var txt = '';
+  var txtrow = '<div class="row" >';
+  var textPhoto1 = '<div class="col-6"><a href="';
+  var textPhoto3 = '" target="_blank" class="btn btn-info" role="button">';
+  var textPhoto4 = '</a></div>';
+  var txtrowdiv = '</div>';
+  for(i =0; i<links.length; i++){
+    txt += txtrow+textPhoto1+links[i]+textPhoto3+linkTitles[i]+textPhoto4;
+    i++;
+    if(i<links.length){
+      txt += textPhoto1+links[i]+textPhoto3+linkTitles[i]+textPhoto4+txtrowdiv;
+    }
+  }
+  document.getElementById("classRecordings").innerHTML = txt;
+
+</script>
+</body>
+</html>

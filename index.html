@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Bootstrap Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+</head>
+<body>
+  
+<div class="container">
+  <h1 class="text-center"><i>Summer 2020</i></h1>
+</div>
+
+  
+<div class="container" id="pageHeader">
+  <h3 class="text-center">Home Page</h3>
+</div>
+
+<!-----------------Navigation Bar --------------->
+
+<nav class="navbar navbar-expand-md bg-dark navbar-dark">
+  <a class="navbar-brand" href="index.html">Home</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="collapsibleNavbar">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" href="Communicative English.html">Communicative English</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="Computer Graphics.html">Computer Graphics</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="MATH.html">MATH (Probability & Statistics)</a>
+      </li> 
+      <li class="nav-item">
+        <a class="nav-link" href="Software Engineering.html">Software Engineering and System and Design</a>
+      </li> 
+      <li class="nav-item">
+        <a class="nav-link" href="Computer Graphics Lab.html">Computer Graphics Lab</a>
+      </li>    
+    </ul>
+  </div>  
+</nav>
+
+<!------- Class Routine ---------->
+<div class="container">
+  <h2 class="text-center p-3">Class Routine</h2>     
+  <table class="table table-dark table-hover" border="1">
+<thead>
+  <tr>
+    <th>Day</th>
+    <th>Course</th>
+    <th>Time</th>
+    <th>Room</th>
+  </tr>
+</thead>
+<tbody>
+  <div>
+    <tr class="day_is_7">
+      <td rowspan="2" >Sunday</td>
+      <td>ENG 103.2 <abbr title="Mithila Afrin">(MAF)</abbr></td>
+      <td>10.00-11.30</td>
+      <td>112</td>
+    </tr>
+    <tr class="day_is_7">
+      <td>MATH 301.2 <abbr title="Mahmudur Rahman">(MR)</abbr> </td>
+      <td>11.30-1.00</td>
+      <td>111</td>
+    </tr>
+  </div>
+  <div>
+    <tr class="day_is_1">
+      <td rowspan="2">Monday</td>
+      <td>CSE 321.2  <abbr title="Yeasmin Ara Akter">(YA)</abbr> </td>
+      <td>11.30-1.00</td>
+      <td>112</td>
+    </tr>
+    <tr class="day_is_1">
+      <td>CSE 411.2  <abbr title="Muntasir Hoq">(MH)</abbr></td>
+      <td>3.00-4.30</td>
+      <td>111</td>
+    </tr>
+  </div>
+  <div>
+    <tr class="day_is_2">
+      <td rowspan="2">Tuesday</td>
+      <td>ENG 103.2 <abbr title="Mithila Afrin">(MAF)</abbr></td>
+      <td>10.00-11.30</td>
+      <td>112</td>
+    </tr>
+    <tr class="day_is_2">
+      <td>MATH 301.2<abbr title="Mahmudur Rahman">(MR)</abbr></td>
+      <td>11.30-1.00</td>
+      <td>111</td>
+    </tr>
+  </div>
+  <div>
+    <tr class="day_is_3">
+      <td rowspan="2">Wednesday</td>
+      <td>CSE 321.2 <abbr title="Yeasmin Ara Akter">(YA)</abbr></td>
+      <td>11.30-1.00</td>
+      <td>112</td>
+    </tr>
+    <tr class="day_is_3">
+      <td>CSE 411.2 <abbr title="Muntasir Hoq">(MH)</abbr></td>
+      <td>3.00-4.30</td>
+      <td>111</td>
+    </tr>
+  </div>
+  <div>
+    <tr class="day_is_4">
+      <td>Thursday</td>
+      <td>CSE 322.2 <abbr title="Yeasmin Ara Akter">(YA)</abbr></td>
+      <td>3.00-5.00</td>
+      <td>104</td>
+    </tr>
+</div>
+</tbody>
+</table>
+  </table>
+</div>
+
+
+
+<!------------- Script ---------------->
+
+<script type="text/javascript">
+  var day = new Date();
+  var day_is = "day_is_"+day.getDay();
+  //document.getElementById(day_is).style.background= "blue";
+
+  var x = document.getElementsByClassName(day_is);
+  x[0].style.backgroundColor = "green";
+  x[1].style.backgroundColor = "green";
+</script>
+
+
+
+</body>
+</html>
