@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Bresenhan's Line Drowing Algorithm</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+  <style>
+  </style>
+</head>
+<body>
+  
+<div class="container">
+  <h1 class="text-center"><i>Summer 2020</i></h1>
+</div>
+
+  <div class="container">
+    <h3 class="text-center">Computer Graphics</h3>
+    <h4 class="text-center">Bresenhan's Line Drowing Algorithm</h4>
+  </div>
+
+
+<nav class="navbar navbar-expand-md bg-dark navbar-dark">
+  <a class="navbar-brand" href="../index.html">Home</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="collapsibleNavbar">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link " href="../Communicative English.html">Communicative English</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link active" href="../Computer Graphics.html">Computer Graphics</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="../MATH.html">MATH (Probability & Statistics)</a>
+      </li> 
+      <li class="nav-item">
+        <a class="nav-link" href="../Software Engineering.html">Software Engineering and System and Design</a>
+      </li> 
+      <li class="nav-item">
+        <a class="nav-link" href="../Computer Graphics Lab.html">Computer Graphics Lab</a>
+      </li>    
+    </ul>
+  </div>  
+</nav>
+
+
+
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <div class="form-group">
+        <label for="usr">Enter X<sub>1</sub>:</label>
+        <input type="number" class="form-control" id="x1">
+      </div>
+    </div>
+    <div class="col">
+      <div class="form-group">
+        <label for="usr">Y<sub>1</sub>:</label>
+        <input type="number" class="form-control" id="y1">
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <div class="form-group">
+        <label for="usr">Enter X<sub>2</sub>:</label>
+        <input type="number" class="form-control" id="x2">
+      </div>
+    </div>
+    <div class="col">
+      <div class="form-group">
+        <label for="usr">Y<sub>2</sub>:</label>
+        <input type="number" class="form-control" id="y2">
+      </div>
+    </div>
+  </div>
+    <button type="submit" onclick="result()" class="btn btn-primary">Result</button>
+</div>
+
+<div class="container">
+    <p id="m_slop"></p>
+    <p id="pk1_eq"></p>
+    <div id="result"></div>
+    <p id="demo"></p>
+    <p id="typeofs"></p>
+    <p id="typeofs2"></p>
+</div>
+
+
+<div class="p-3">
+  
+</div>
+
+
+
+<script type="text/javascript">
+    function Bresenham(x1, y1, x2, y2){
+      var points_x =[];
+      var points_y =[];
+      var decision_p = [];
+      var x = x1;
+      var y = y1;
+      var dx = x2-x1;
+      var dy = y2-y1;
+      var slop_m = dy/dx;
+      var p = (2*dy)-dx;
+      var steps = dx;
+      if(slop_m > 1){
+        p = (2*dx)-dy;
+        steps = dy;
+      }
+      var yk1 = y;
+      var xk1 = x;  
+
+      points_x.push(x);
+      points_y.push(y);
+      decision_p.push(p);
+
+      while(steps--){
+        if(slop_m<1){
+          x++;
+          if(p>=0){
+            y++;
+          }
+          p+= (2*dy)-(2*dx*(y-yk1));
+        }
+        else if(slop_m>1){
+          y++;
+          if(p>0){
+            x++;
+          }
+          p += (2*dx)-(2*dy*(x-xk1));
+        }
+        else{
+          x++;
+          y++;
+          p=0;
+        }
+        xk1 = x;
+        yk1 = y;
+        points_x.push(x);
+        points_y.push(y);
+        decision_p.push(p);
+      }
+      var string = "<table class = 'table table-bordered table-hover table-sm'><tr><th>(x<sub>k</sub>,y<sub>k</sub>)</th><th>p<sub>k</sub></th><th>(x<sub>k+1</sub>,y<sub>k+1</sub>)</th><th>p<sub>k+1</sub></th></tr>";
+      for(i=0; i<points_x.length-1;i++){
+        //string += points_x[i]+" , "+points_y[i]+" p = "+decision_p[i]+"<br>";
+        string += "<tr><td>("+points_x[i]+","+points_y[i]+")</td><td>"+decision_p[i]+"</td><td>("+points_x[i+1]+","+points_y[i+1]+")</td><td>"+decision_p[i+1]+"</td></tr>";
+      }
+      document.getElementById('result').innerHTML = string;
+      document.getElementById('m_slop').innerHTML = "m = "+slop_m;
+      if(slop_m<1){
+        var str_pk = "p<sub>k</sub> = 2&#916;y-&#916;x";
+        var str_pk1 = "p<sub>k+1</sub> = p<sub>k</sub>+2&#916;y-2&#916;x(y<sub>k+1</sub>-y<sub>k</sub>)";
+
+        document.getElementById('pk1_eq').innerHTML = str_pk+"<br>"+str_pk1;
+      }
+      else if(slop_m>1){
+
+        var str_pk = "p<sub>k</sub> = 2&#916;x-&#916;y";
+        var str_pk1 = "p<sub>k+1</sub> = p<sub>k</sub>+2&#916;x-2&#916;y(x<sub>k+1</sub>-x<sub>k</sub>)";
+        document.getElementById('pk1_eq').innerHTML = str_pk+"<br>"+str_pk1;
+      }
+      else{
+        document.getElementById('pk1_eq').innerHTML = "";
+      }
+    }
+    function result(){
+      var x1 = Number(document.getElementById('x1').value);
+      var x2 = Number(document.getElementById('x2').value);
+      var y1 = Number(document.getElementById('y1').value);
+      var y2 = Number(document.getElementById('y2').value);
+
+      Bresenham(x1, y1, x2, y2);
+    }
+  </script>
+</body>
+</html>
