@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Mid point Line Drowing Algorithm</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+  <style>
+  </style>
+</head>
+<body>
+  
+<div class="container">
+  <h1 class="text-center"><i>Summer 2020</i></h1>
+</div>
+
+  <div class="container">
+    <h3 class="text-center">Computer Graphics</h3>
+    <h4 class="text-center">Mid Point Circle Drowing Algorithm</h4>
+  </div>
+
+
+<nav class="navbar navbar-expand-md bg-dark navbar-dark">
+  <a class="navbar-brand" href="../index.html">Home</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="collapsibleNavbar">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link " href="../Communicative English.html">Communicative English</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link active" href="../Computer Graphics.html">Computer Graphics</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="../MATH.html">MATH (Probability & Statistics)</a>
+      </li> 
+      <li class="nav-item">
+        <a class="nav-link" href="../Software Engineering.html">Software Engineering and System and Design</a>
+      </li> 
+      <li class="nav-item">
+        <a class="nav-link" href="../Computer Graphics Lab.html">Computer Graphics Lab</a>
+      </li>    
+    </ul>
+  </div>  
+</nav>
+
+
+
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <div class="form-group">
+        <label for="usr">Enter X:</label>
+        <input type="number" class="form-control" id="x" >
+      </div>
+    </div>
+    <div class="col">
+      <div class="form-group">
+        <label for="usr">Enter Y:</label>
+        <input type="number" class="form-control" id="y" >
+      </div>
+    </div>
+  </div>
+    <button type="submit" onclick="result()" class="btn btn-primary">Result</button>
+</div>
+
+<div class="container">
+ 
+    <hr><hr>
+    <p id="m_slop"></p>
+    <p id="pk1_eq"></p>
+    <div id="result"></div>
+    <p id="demo"></p>
+    <p id="typeofs"></p>
+    <p id="typeofs2"></p>
+    <div class="container">
+      <div id="show_p_values" class="row">
+      </div>
+    </div>
+
+
+</div>
+<div class="p-3">
+</div>
+<script type="text/javascript">
+
+  var str_p_value = "";
+  var str_container = '<div class="col-sm-6 col-md-2">';
+  var str_x_y_value = "";
+  var str_table_head = "<table class = 'table table-bordered table-hover table-sm'><tr><th>Point</th><th>Value</th></tr>";
+  var str_table_td = "";
+
+
+    function drow_circle(x_value, y_value){
+      
+      str_x_y_value = "<hr><h5>For x = "+x_value+"  y = "+y_value+"</h5>";
+      str_table_td = "<tr><td>P<sub>1</sub></td><td>("+x_value+","+y_value+")</td></tr>";
+      str_table_td += "<tr><td>P<sub>2</sub></td><td>("+y_value+","+x_value+")</td></tr>";
+      str_table_td += "<tr><td>P<sub>3</sub></td><td>("+-y_value+","+x_value+")</td></tr>";
+      str_table_td += "<tr><td>P<sub>4</sub></td><td>("+-x_value+","+y_value+")</td></tr>";
+      str_table_td += "<tr><td>P<sub>5</sub></td><td>("+-x_value+","+-y_value+")</td></tr>";
+      str_table_td += "<tr><td>P<sub>6</sub></td><td>("+-y_value+","+-x_value+")</td></tr>";
+      str_table_td += "<tr><td>P<sub>7</sub></td><td>("+y_value+","+-x_value+")</td></tr>";
+      str_table_td += "<tr><td>P<sub>8</sub></td><td>("+x_value+","+-y_value+")</td></tr></table><hr></div>";
+
+      str_p_value += str_container+str_x_y_value+str_table_head+str_table_td;
+      
+    }
+
+
+
+    /********************-----------------***************************/
+    function Bresenham_circle(x, y){
+      var points_x =[];
+      var points_y =[];
+      var pk_values = [];
+      var formula_use = [];
+
+      var r = y;
+      var pk = 1-r;
+
+      points_x.push(x);
+      points_y.push(y);
+      pk_values.push(pk);
+
+      while(x<y){
+        var formula = 0;
+        if(pk<0){
+          pk += 2*x+3;
+          x++;
+          formula = 0;
+        }
+        else{
+          pk += 2*(x-y)+5;
+          x++;
+          y--;
+          formula = 1;
+        }
+
+        points_x.push(x);
+        points_y.push(y);
+        pk_values.push(pk);
+        formula_use.push(formula);
+      }
+
+      var str_formula = ["p<sub>k</sub>+2x<sub>k</sub>+3", "p<sub>k</sub>+2(x<sub>k</sub>-y<sub>k</sub>)+5"];
+      var string = "<table class = 'table table-bordered table-hover table-sm'><tr><th>(x<sub>k</sub>,y<sub>k</sub>)</th><th>p<sub>k</sub></th><th>(x<sub>k+1</sub>,y<sub>k+1</sub>)</th><th>p<sub>k+1</sub></th></tr>";
+      for(i=0; i<points_x.length-1;i++){
+        string += "<tr><td>("+points_x[i]+","+points_y[i]+")</td><td>"+pk_values[i]+"</td><td>("+points_x[i+1]+","+points_y[i+1]+")</td><td>"+str_formula[formula_use[i]]+" = "+pk_values[i+1]+"</td></tr>";
+      }
+      document.getElementById('result').innerHTML = string;
+      for(i=0; i<points_x.length; i++){
+        drow_circle(points_x[i], points_y[i]);
+      }
+      document.getElementById("show_p_values").innerHTML = str_p_value;
+      
+    }
+
+    function result(){
+      var x = Number(document.getElementById('x').value);
+      var y = Number(document.getElementById('y').value);
+
+      str_p_value = "";
+
+      Bresenham_circle(x, y);
+    }
+  </script>
+</body>
+</html>
