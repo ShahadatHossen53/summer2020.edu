@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Table by javaScript</title>
+	<style>
+		td:hover{
+			background: yellow;
+			}
+		table, th, td {
+		  border: 1px solid black;
+		  border-collapse: collapse;
+		}
+		th, td {
+		  padding: 10px;
+		  text-align: left;
+		}	
+		
+	</style>
+</head>
+<body>
+	<table>
+		<tr>
+			<td>Enter row number</td>
+			<td><input type="number" name="" id="row_number" value="5"></td>
+			<td><button onclick="add_row('u')">Add row at last</button></td>
+			<td><button onclick="add_row('d')">Add row at first</button></td>
+		</tr>
+		<tr>
+			<td>Enter coll number</td>
+			<td><input type="number" name="" id="col_number" value="5"></td>
+			<td><button onclick="add_col('f')">Add coll at first</button></td>
+			<td><button onclick="add_col('l')">Add coll at last</button></td>
+		</tr>
+		<tr>
+			<td>Select Color</td>
+			<td><input type="color" name="" id="row_color"></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td><button onclick="c_grid()">Create Grid</button></td>
+			<td></td>
+			<td></td>
+		</tr>
+	</table>
+	<div id="table_grid"></div>
+	<div id="table_id"></div>
+	<hr><hr>
+	<div id="demo_table"></div>
+	<p id="demo"></p>
+	<script type="text/javascript">
+		var row_num;
+		var col_num;
+		function table_element(t_element, text, td_id){
+			var e_tr = document.createElement(t_element);
+			e_tr.setAttribute('id', td_id);
+			e_tr.setAttribute('onclick', "color_change('"+td_id+"')");
+			var e_text = document.createTextNode(text);
+			e_tr.appendChild(e_text);
+			return e_tr;
+		}
+		var grid_counter = 0;
+		function c_grid(){
+			if(grid_counter==1){
+				var select_div = document.getElementById('table_grid');
+				var remove_table = document.getElementById('grid_table');
+				select_div.removeChild(remove_table);
+			}
+			grid_counter = 1;
+			row_num = document.getElementById('row_number').value;
+			col_num = document.getElementById('col_number').value;
+			var e_table = document.createElement("table");
+			e_table.setAttribute("border", '1');
+			e_table.setAttribute("id", 'grid_table');
+			var tr;
+			for(i=0; i<row_num; i++){
+				tr = document.createElement('tr');
+				tr.setAttribute('id', 'tr_'+i);
+				for(j=0; j<col_num; j++){
+					tr.appendChild(table_element("td", "",i+"_"+j));
+				}
+				e_table.appendChild(tr);
+			}
+			var element = document.getElementById('table_grid');
+			element.appendChild(e_table);
+		}
+		///change color
+		function color_change(element_id){
+			var id = document.getElementById(element_id);
+			var color_past = document.getElementById('row_color').value;
+			var has_color = id.hasAttribute("style");
+			if(has_color){
+				id.style.background = "white";
+				id.removeAttribute("style");
+			}
+			else{
+				id.style.background = color_past;
+			}
+		}
+		function add_col(lastfast){
+			col_num++;
+			document.getElementById('demo').innerHTML = "col = "+col_num+"row = "+ row_num;
+			if(lastfast == 'l'){
+				for(i=0; i<row_num; i++){
+					var add_td_in = document.getElementById('tr_'+i);
+					add_td_in.appendChild(table_element('td', "",i+"_"+col_num));
+				}
+			}
+			else{
+				for(i=0; i<row_num; i++){
+					var add_td_in = document.getElementById('tr_'+i);
+					add_td_in.insertBefore(table_element('td', "",i+"_"+col_num), add_td_in.childNodes[0]);
+				}
+			}
+		}
+		function add_row(updown){
+			var add_tr_in = document.createElement('tr');
+			add_tr_in.setAttribute('id', "tr_"+row_num);
+			row_num++;
+			for(i=0; i<col_num; i++){
+				
+				add_tr_in.appendChild(table_element('td', "",row_num+"_"+i));
+			}
+			if(updown=='u'){
+				var element = document.getElementById('grid_table');
+				element.insertBefore(add_tr_in, element.childNodes[0]);
+			}
+			else{
+				var element = document.getElementById('grid_table');
+				element.appendChild(add_tr_in);
+			}
+		}
+	</script>
+</body>
+</html>
