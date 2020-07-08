@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Ellipse Drowing Algorithm with Major and Minor axis</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+  <style>
+  </style>
+</head>
+<body>
+<div class="container">
+  <h1 class="text-center"><i>Summer 2020</i></h1>
+</div>
+  <div class="container">
+    <h3 class="text-center">Computer Graphics</h3>
+    <h4 class="text-center">Ellipse Drowing Algorithm with Major and Minor axis</h4>
+  </div>
+<nav class="navbar navbar-expand-md bg-dark navbar-dark">
+  <a class="navbar-brand" href="../index.html">Home</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="collapsibleNavbar">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link " href="../Communicative English.html">Communicative English</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link active" href="../Computer Graphics.html">Computer Graphics</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="../MATH.html">MATH (Probability & Statistics)</a>
+      </li> 
+      <li class="nav-item">
+        <a class="nav-link" href="../Software Engineering.html">Software Engineering and System and Design</a>
+      </li> 
+      <li class="nav-item">
+        <a class="nav-link" href="../Computer Graphics Lab.html">Computer Graphics Lab</a>
+      </li>    
+    </ul>
+  </div>  
+</nav>
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <div class="form-group">
+        <label for="usr">Enter Major axis:</label>
+        <input type="number" class="form-control" id="a" >
+      </div>
+    </div>
+    <div class="col">
+      <div class="form-group">
+        <label for="usr">Enter Minor axis:</label>
+        <input type="number" class="form-control" id="b" >
+      </div>
+    </div>
+  </div>
+    <button type="submit" onclick="result()" class="btn btn-primary">Result</button>
+</div>
+<div class="container">
+    <hr><hr>
+    <p id="m_slop"></p>
+    <p id="pk1_eq"></p>
+    <div id="result"></div>
+    <p id="demo_2"></p>
+    <p id="demo_1"></p>
+    <p id="demo1"></p>
+    <p id="demo2"></p>
+    <p id="demo3"></p>
+    <p id="demo"></p>
+    <p id="typeofs"></p>
+    <p id="typeofs2"></p>
+    <div class="container">
+      <div id="show_p_values" class="row">
+      </div>
+    </div>
+</div>
+<div class="p-3">
+</div>
+<script type="text/javascript">
+  var str_p_value = "";
+  var str_container = '<div class="col-sm-6 col-md-2">';
+  var str_x_y_value = "";
+  var str_table_head = "<table class = 'table table-bordered table-hover table-sm'><tr><th>Point</th><th>Value</th></tr>";
+  var str_table_td = "";
+    function elleps_drawing(a, b){
+    	document.getElementById('demo_2').innerHTML = "Major axis = "+a+"<br>or, 2a = "+a+"<br>or, a = "+a/2;
+    	document.getElementById('demo_1').innerHTML = "Minor axis = "+b+"<br>or, 2b = "+b+"<br>or, b = "+b/2;
+    	a = a/2;
+    	b = b/2;
+    	var output_str = "<h4>Part 1</h4>"
+		output_str += "<table class = 'table table-bordered table-hover table-sm'><tr><th>(x<sub>k</sub>,y<sub>k</sub>)</th><th>P<sub>i</sub></th><th>(x<sub>k+1</sub>,y<sub>k+1</sub>)</th><th>f(x)</th><th>f(y)</th><th>P<sub>i+1</sub></th>";
+    	var x_points = [];
+    	var y_points = [];
+    	var p_points = [];
+    	var fx_points = [];
+    	var fy_points = [];
+    	var x = 0;
+    	var y = b;
+    	var aa = a*a;
+    	var bb = b*b;
+    	var fx = 2*bb*x;
+    	var fy = 2*aa*y;
+    	var part_1 = 0;
+    	var part_2 = 0;
+    	var p = bb+((1/4)*aa)-(aa*b);
+    	document.getElementById('demo1').innerHTML = "a<sup>2</sup> = "+aa;
+    	document.getElementById('demo2').innerHTML = "a<sup>2</sup> = "+bb;
+    	var str_for_p = "P = b<sup>2</sup> - a<sup>2</sup>b + 1/4 * a<sup>2</sup><br>";
+    	str_for_p += "= "+ bb +"-"+ aa+"*"+b+"+ 1/4 * "+aa+"<br>"; 
+    	str_for_p += "= "+p; 
+    	document.getElementById('demo3').innerHTML = str_for_p;
+    	x_points.push(x);
+		y_points.push(y);
+		fx_points.push(fx);
+		fy_points.push(fy);
+		p_points.push(p);
+    	while(fx < fy){
+    		x_prev = x;
+    		y_prev = y;
+    		x++;
+    		if(p>=0){
+    			y--;
+    		}
+    		p = p+bb+2*(x_prev+1)*bb+aa*((y*y)-(y_prev*y_prev))-aa*(y-y_prev);
+    		fx = 2*bb*x;
+    		fy = 2*aa*y;
+    		x_points.push(x);
+    		y_points.push(y);
+    		fx_points.push(fx);
+    		fy_points.push(fy);
+    		p_points.push(p);
+    		part_1++;
+    	}
+    	for(i=0; i<part_1; i++){
+    		output_str += "<tr><td>("+x_points[i]+","+y_points[i]+")</td>";
+    		output_str += "<td>"+p_points[i]+"</td>";
+    		output_str += "<td>("+x_points[i+1]+","+y_points[i+1]+")</td>";
+    		output_str += "<td>"+fx_points[i+1]+"</td>";
+    		output_str += "<td>"+fy_points[i+1]+"</td>";
+    		if(i+1 != part_1){
+    			output_str += "<td>"+p_points[i+1]+"</td><tr>";
+    		}
+    		else{
+    			output_str += "<td>----</td><tr>";
+    		}
+    	}
+    	output_str+= "</table><h4>Part 2</h4>";
+    	p = (x+(1/2))*(x+(1/2))*bb+(y-1)*(y-1)*aa-aa*bb;
+    	p_points.push(p);
+    	while(y>=0){
+    		x_prev = x;
+    		y_prev = y;
+    		y--;
+    		if(p<0){
+    			x++;
+    		}
+    		p = p+aa-2*(y_prev-1)*aa+bb*((x*x)-(x_prev*x_prev))+bb*(x-x_prev);
+    		x_points.push(x);
+    		y_points.push(y);
+    		p_points.push(p);
+    		part_2++;
+    	}
+    	output_str+= "<p>Points we got is ("+x_points[part_1]+" , "+y_points[part_1]+")<br>";
+    	output_str+= "P<sub>j</sub> = b<sup>2</sup>(x<sub>k</sub>+1/2)<sup>2</sup>+a<sup>2</sup>(y<sub>k</sub>-1)<sup>2</sup>-a<sup>2</sup>b<sup>2</sup><br>";
+    	output_str += "="+bb+"("+x_points[part_1]+"+1/2)<sup>2</sup>+"+aa+"("+y_points[part_1]+"-1)<sup>2</sup>-"+aa+"*"+bb+"<br>";
+    	output_str += "="+p_points[part_1+1]+"</p>";
+    	output_str += "<table class = 'table table-bordered table-hover table-sm'><tr><th>(x<sub>k</sub>,y<sub>k</sub>)</th><th>P<sub>j</sub></th><th>(x<sub>k+1</sub>,y<sub>k+1</sub>)</th><th>P<sub>j+1</sub></th>";
+    	for(i=part_1; i<part_1+part_2-1; i++){
+    		output_str += "<tr><td>("+x_points[i]+","+y_points[i]+")</td>";
+    		output_str += "<td>"+p_points[i+1]+"</td>";
+    		output_str += "<td>("+x_points[i+1]+","+y_points[i+1]+")</td>";
+    		if(i+1 != part_1+part_2-1){
+    			output_str += "<td>"+p_points[i+2]+"</td><tr>";
+    		}
+    		else{
+    			output_str += "<td>----</td><tr>";
+    		}
+    	}
+    	output_str += "</table><h5>The points are</h5>";
+    	output_str += "<table class = 'table table-bordered table-hover table-sm'><tr><th>1<sup>st</sup> quadrant<br>+,+</th><th>2<sup>nd</sup> quadrant<br>-,+</th><th>3<sup>rd</sup> quadrant<br>-,-</th><th>4<sup>th</sup> quadrant<br>+,-</th>";
+    	for(i=0; i<x_points.length-2; i++){
+    		output_str += "<tr><td>("+x_points[i]+","+y_points[i]+")</td>";
+    		output_str += "<td>("+ -x_points[i]+","+y_points[i]+")</td>";
+    		output_str += "<td>("+ -x_points[i]+","+ -y_points[i]+")</td>";
+    		output_str += "<td>("+x_points[i]+","+ -y_points[i]+")</td></tr>";
+    	}
+    	document.getElementById('demo').innerHTML = output_str;
+    }
+    function result(){
+      var a = Number(document.getElementById('a').value);
+      var b = Number(document.getElementById('b').value);
+      elleps_drawing(a, b);
+    }
+  </script>
+</body>
+</html>
