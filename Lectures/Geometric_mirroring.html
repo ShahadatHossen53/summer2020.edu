@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Geometric Transformation</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+  <style>
+  </style>
+</head>
+<body>
+<div class="container">
+  <h1 class="text-center"><i>Summer 2020</i></h1>
+</div>
+  <div class="container">
+    <h3 class="text-center">Computer Graphics</h3>
+    <h4 class="text-center">Geometric Transformation (Mirror Reflection)</h4>
+  </div>
+<nav class="navbar navbar-expand-md bg-dark navbar-dark">
+  <a class="navbar-brand" href="../index.html">Home</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="collapsibleNavbar">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link " href="../Communicative English.html">Communicative English</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link active" href="../Computer Graphics.html">Computer Graphics</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="../MATH.html">MATH (Probability & Statistics)</a>
+      </li> 
+      <li class="nav-item">
+        <a class="nav-link" href="../Software Engineering.html">Software Engineering and System and Design</a>
+      </li> 
+      <li class="nav-item">
+        <a class="nav-link" href="../Computer Graphics Lab.html">Computer Graphics Lab</a>
+      </li>    
+    </ul>
+  </div>  
+</nav>
+<div class="container">
+    <table id="input_table" class="table">
+    	<tbody>
+			<tr><td>Enter point1(x,y): </td>
+				<td><input type="text" name="" value="(0,0)" id="point1"></td>
+			</tr>
+		</tbody>
+	</table>
+	<table class="table">
+		<tbody>
+			<tr><td>Add Input: </td>
+				
+				<td><button type="button" class="btn btn-warning" onclick="add_input()">Add Input</button></td>
+			</tr>
+			<tr><td>Enter axis to reflect</td>
+				<td><input type="text" name="" id="t_v"></td>
+			</tr>
+			<tr><td>Show Result: </td>
+				<td><button type="button" class="btn btn-primary" onclick="result()">Result</button></td>
+			</tr>
+		</tbody>
+	</table>
+
+</div>
+<div class="container">
+    <hr><hr>
+    <p id="demo"></p>
+    <div id="result"></div>
+
+ <script typ="text/javascript">
+		var point_num = 1;
+		function result(){
+			var point_string = "<table class = 'table table-bordered table-hover table-sm'><tr><th>Points</th><th>(x,y)</th>";
+			var tv = document.getElementById('t_v').value;
+			var mirror_ax = 1;
+			var mirror_ay = 1;
+			if(tv == "x" || tv == "X"){
+				mirror_ay = -1;
+			}
+			else{
+				mirror_ax = -1;
+			}
+			/*var tv_res = tv.replace("(", "");
+			tv_res = tv_res.replace(")", "");
+			var res_tv = tv_res.split(",");
+			var tv_ax = parseFloat(res_tv[0]);
+			var tv_ay = parseFloat(res_tv[1]);
+			*/
+			for(i=1; i<=point_num; i++){
+				var temp_id = "point"+i;
+				var temp_num = document.getElementById(temp_id).value;
+				var str_a = temp_num.replace("(", "");
+				str_a = str_a.replace(")", "");
+				var res = str_a.split(",");
+				var ax = parseFloat(res[0]);
+				var ay = parseFloat(res[1]);
+				var pax = ax;
+				var pay = ay;
+
+				ax *= mirror_ax;
+				ay *= mirror_ay;
+				var to_fixed = 2;
+				var nbsp = "&nbsp&nbsp&nbsp&nbsp" ;
+/*
+				var equation = "<div class='row'><div class='col-3 text-right'><p><br><br><br>("+pax+nbsp+pay+nbsp+" 1)</p></div>";
+
+				equation += "<div class='col-9'><div class='row'><div class='col-4'><h1 class='display-1'>(</h1></div>";
+				equation += "<div class='col-4'><p><br>1"+nbsp+"0"+nbsp+"0<br>";
+				equation += "0"+nbsp+"1"+nbsp+"0<br>";
+				equation += tv_ax+nbsp+tv_ay+nbsp+" 1</p></div>";
+				equation += "<div class='col-4'><h1 class='display-1'>)</h1></div>";
+
+				equation += "</div></div></div>";
+*/
+
+
+				point_string += "<tr><td>P<sup>'</sup><sub>"+i+"</sub></td><td>("+ax+" , "+ay+")</td></tr>";
+			}
+			document.getElementById('result').innerHTML = point_string+"</table>";
+		}
+		function add_input(){
+			point_num++;
+			var temp_id = "point"+point_num;
+			var tr = document.createElement('tr');
+			var td =  document.createElement('td');
+			var text =  document.createTextNode("Enter point"+point_num+"(x,y):");
+			td.appendChild(text);
+			tr.appendChild(td);
+			td =  document.createElement('td');
+			var inp =  document.createElement('input');
+			inp.setAttribute("type", 'text');
+			inp.setAttribute('id', temp_id);
+			td.appendChild(inp);
+			tr.appendChild(td);
+			var table = document.getElementById('input_table');
+			table.appendChild(tr);
+		}
+	</script>
+</body>
+</html>
