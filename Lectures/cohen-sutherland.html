@@ -48,10 +48,10 @@
     <table class="table">
     	<tbody>
 			<tr><td>Enter Lower Left values(x,y): </td>
-				<td><input type="text" name="" value="(0,0)" id="ll"></td>
+				<td><input type="text" name="" value="(5,1)" id="ll"></td>
 			</tr>
 			<tr><td>Enter Upper Right values(x,y): </td>
-				<td><input type="text" name="" value="(0,0)" id="ur"></td>
+				<td><input type="text" name="" value="(10,8)" id="ur"></td>
 			</tr>
 		</tbody>
 	</table>
@@ -82,7 +82,7 @@
  <script typ="text/javascript">
 		var line_num = 0;
 		var x_min=0, y_min = 0, x_max = 0, y_max = 0;
-		var x = -1, y = -1;
+		var x = false, y = false;
 		function result(){
 			var category = 0;
 
@@ -105,11 +105,12 @@
 			
 			
 
-			var string = "<table class = 'table table-bordered table-hover table-sm'><tr><th>Line </th><th>Clipping Category</th><th>Intersection Point</th></tr>";
+			var string = "<table class = 'table table-bordered table-hover table-sm'><tr><th>Line </th><th>Clipping Category</th><th>Region</th><th>Intersection Point</th></tr>";
 			for(var i=1; i<=line_num; i++){
 				var line_string_c = "";
 				var line_string_1 = "";
 				var line_string_2 = "";
+
 				var temp_id = "Line"+i;
 				var temp_num = document.getElementById(temp_id).value;
 				var str_a = temp_num.replace("(", "");
@@ -119,11 +120,17 @@
 				var y1 = parseFloat(res[1]);
 				var x2 = parseFloat(res[2]);
 				var y2 = parseFloat(res[3]);
+
 				var region_1 = region(x1, y1);
 				var region_2 = region(x2, y2);
+
+				
+
 				if(region_1 == "0000" && region_2 == "0000"){
 					category = 1;
 					line_string_c = "Visible";
+					//continue;
+
 				}
 				else if(clipping_candidate(region_1, region_2)){
 					category = 3;
@@ -132,9 +139,14 @@
 				else{
 					category = 2;
 					line_string_c ="Not Visible";
+					//continue;
 				}
+
 				var intersect_boundary;
 				var slop_m = (y2-y1)/(x2-x1);
+
+				//line_string += "slop = "+slop_m+"<br>";
+
 				if(category == 3){
 					var x_i, y_i;
 					
@@ -145,7 +157,9 @@
 					else{
 						intersect_boundary =  intersect(region_1);
 						select_intersect_boundary(intersect_boundary, region_2);
-						if(x==-1){
+
+						
+						if(y){
 							y_i = y;
 							x_i = x1+(y_i-y1)/slop_m;
 						}
@@ -154,9 +168,11 @@
 							y_i = y1+slop_m*(x_i-x1);
 						}
 					}
+
 					line_string_1 = "Line_"+i+" Point_1("+x_i+","+y_i+")";
-					x = -1;
-					y = -1;
+					x = false;
+					y = false;
+
 					if(region_2=="0000"){
 						x_i = x2;
 						y_i = y2;
@@ -164,7 +180,8 @@
 					else{
 						intersect_boundary =  intersect(region_2);
 						select_intersect_boundary(intersect_boundary, region_1);
-						if(x==-1){
+
+						if(y){
 							y_i = y;
 							x_i = x1+(y_i-y1)/slop_m;
 						}
@@ -174,14 +191,17 @@
 						}
 					}
 					line_string_2 = "Line_"+i+" Point_2("+x_i+","+y_i+")";
-					x = -1;
-					y = -1;
+					x = false;
+					y = false;
 				}
-				string += "<tr><td>Line_"+i+"</td><td>"+line_string_c+"</td><td>"+line_string_1+"<br>"+line_string_2+"</td><tr>";
+				var p1 = "point("+x1+","+y1+") -> "+region_1+"<br>point("+x2+","+y2+") -> "+region_2;
+				string += "<tr><td>Line_"+i+"</td><td>"+line_string_c+"</td><td>"+p1+"</td><td>"+line_string_1+"<br>"+line_string_2+"</td><tr>";
 			}
 			string += "</table>";
+			//document.getElementById("demo").innerHTML = line_string;
 			document.getElementById("result").innerHTML = string;
 		}
+
 		function select_intersect_boundary(intersect_boundary, region_2){
 			if(intersect_boundary == 1){
 				y = y_max;
@@ -211,6 +231,7 @@
 				}
 			}
 		}
+
 		function intersect(r){
 			for(var i=0; i<4; i++){
 				if(r[i] == "1"){
@@ -219,6 +240,7 @@
 			}
 			return 0;
 		}
+
 		function clipping_candidate(r1, r2){
 			for(var i=0; i<4; i++){
 				if(bitwise_and(r1[i], r2[i]) == "1"){
@@ -227,6 +249,7 @@
 			}
 			return true;
 		}
+
 		function bitwise_and(bit1, bit2){
 			if(bit1 == "1" && bit2 == "1"){
 				return "1";
@@ -235,6 +258,7 @@
 				return "0";
 			}
 		}
+
 		function region(x, y){
 			if(y > y_max){
 				if(x < x_min){
@@ -270,6 +294,9 @@
 				}
 			}
 		}
+
+
+
 		function add_input(){
 			line_num++;
 			var temp_id = "Line"+line_num;
