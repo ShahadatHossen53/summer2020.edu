@@ -48,10 +48,10 @@
     <table class="table">
     	<tbody>
 			<tr><td>Enter Lower Left values(x,y): </td>
-				<td><input type="text" name="" value="(0,0)" id="ll"></td>
+				<td><input type="text" name="" value="(5,1)" id="ll"></td>
 			</tr>
 			<tr><td>Enter Upper Right values(x,y): </td>
-				<td><input type="text" name="" value="(0,0)" id="ur"></td>
+				<td><input type="text" name="" value="(10,8)" id="ur"></td>
 			</tr>
 		</tbody>
 	</table>
@@ -151,8 +151,8 @@
 					var x_i, y_i;
 					
 					if(region_1 == "0000"){
-						x_i = x1;
-						y_i = y1;
+						x_i = "Not Intersect";
+						y_i = "Not Intersect";
 					}
 					else{
 						intersect_boundary =  intersect(region_1);
@@ -174,8 +174,8 @@
 					y = false;
 
 					if(region_2=="0000"){
-						x_i = x2;
-						y_i = y2;
+						x_i = "Not Intersect";
+						y_i = "Not Intersect";
 					}
 					else{
 						intersect_boundary =  intersect(region_2);
@@ -189,6 +189,9 @@
 							x_i = x;
 							y_i = y1+slop_m*(x_i-x1);
 						}
+					}
+					if(isNaN(x_i)){
+
 					}
 					line_string_2 = "Line_"+i+" Point_2("+x_i+","+y_i+")";
 					x = false;
