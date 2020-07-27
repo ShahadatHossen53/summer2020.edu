@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Cohen-Sutherland Algorithm</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+  <style>
+  </style>
+</head>
+<body>
+<div class="container">
+  <h1 class="text-center"><i>Summer 2020</i></h1>
+</div>
+  <div class="container">
+    <h3 class="text-center">Computer Graphics</h3>
+    <h4 class="text-center">Cohen-Sutherland Algorithm</h4>
+  </div>
+<nav class="navbar navbar-expand-md bg-dark navbar-dark">
+  <a class="navbar-brand" href="../index.html">Home</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="collapsibleNavbar">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link " href="../Communicative English.html">Communicative English</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link active" href="../Computer Graphics.html">Computer Graphics</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="../MATH.html">MATH (Probability & Statistics)</a>
+      </li> 
+      <li class="nav-item">
+        <a class="nav-link" href="../Software Engineering.html">Software Engineering and System and Design</a>
+      </li> 
+      <li class="nav-item">
+        <a class="nav-link" href="../Computer Graphics Lab.html">Computer Graphics Lab</a>
+      </li>    
+    </ul>
+  </div>  
+</nav>
+<div class="container">
+    <table class="table">
+    	<tbody>
+			<tr><td>Enter Lower Left values(x,y): </td>
+				<td><input type="text" name="" value="(0,0)" id="ll"></td>
+			</tr>
+			<tr><td>Enter Upper Right values(x,y): </td>
+				<td><input type="text" name="" value="(0,0)" id="ur"></td>
+			</tr>
+		</tbody>
+	</table>
+	<hr>
+    <table id="input_table" class="table">
+    	<tbody>
+		</tbody>
+	</table>
+	<hr>
+	<table class="table">
+		<tbody>
+			<tr><td>Add Line: </td>
+				
+				<td><button type="button" class="btn btn-warning" onclick="add_input()">Add Line</button></td>
+			</tr>
+			<tr><td>Show Result: </td>
+				<td><button type="button" class="btn btn-primary" onclick="result()">Result</button></td>
+			</tr>
+		</tbody>
+	</table>
+
+</div>
+<div class="container">
+    <hr><hr>
+    <p id="demo"></p>
+    <div id="result"></div>
+
+ <script typ="text/javascript">
+		var line_num = 0;
+		var x_min=0, y_min = 0, x_max = 0, y_max = 0;
+		var x = -1, y = -1;
+		function result(){
+			var category = 0;
+
+			var point_string = "<table class = 'table table-bordered table-hover table-sm'><tr><th>Points </th><th>Calculation</th> </th><th>(x,y)</th>";
+			var lower_left = document.getElementById('ll').value;
+			var upper_right = document.getElementById('ur').value;
+			var lower_left_res = lower_left.replace("(", "");
+			lower_left_res = lower_left_res.replace(")", "");
+			var res_lower_left = lower_left_res.split(",");
+
+			var upper_right_res = upper_right.replace("(", "");
+			upper_right_res = upper_right_res.replace(")", "");
+			var res_upper_right = upper_right_res.split(",");
+			
+			x_min = res_lower_left[0];
+			y_min = res_lower_left[1];
+
+			x_max = res_upper_right[0];
+			y_max = res_upper_right[1];
+			
+			
+
+			var string = "<table class = 'table table-bordered table-hover table-sm'><tr><th>Line </th><th>Clipping Category</th><th>Intersection Point</th></tr>";
+			for(var i=1; i<=line_num; i++){
+				var line_string_c = "";
+				var line_string_1 = "";
+				var line_string_2 = "";
+				var temp_id = "Line"+i;
+				var temp_num = document.getElementById(temp_id).value;
+				var str_a = temp_num.replace("(", "");
+				str_a = str_a.replace(")", "");
+				var res = str_a.split(",");
+				var x1 = parseFloat(res[0]);
+				var y1 = parseFloat(res[1]);
+				var x2 = parseFloat(res[2]);
+				var y2 = parseFloat(res[3]);
+				var region_1 = region(x1, y1);
+				var region_2 = region(x2, y2);
+				if(region_1 == "0000" && region_2 == "0000"){
+					category = 1;
+					line_string_c = "Visible";
+				}
+				else if(clipping_candidate(region_1, region_2)){
+					category = 3;
+					line_string_c ="Clipping Candidate";
+				}
+				else{
+					category = 2;
+					line_string_c ="Not Visible";
+				}
+				var intersect_boundary;
+				var slop_m = (y2-y1)/(x2-x1);
+				if(category == 3){
+					var x_i, y_i;
+					
+					if(region_1 == "0000"){
+						x_i = x1;
+						y_i = y1;
+					}
+					else{
+						intersect_boundary =  intersect(region_1);
+						select_intersect_boundary(intersect_boundary, region_2);
+						if(x==-1){
+							y_i = y;
+							x_i = x1+(y_i-y1)/slop_m;
+						}
+						else{
+							x_i = x;
+							y_i = y1+slop_m*(x_i-x1);
+						}
+					}
+					line_string_1 = "Line_"+i+" Point_1("+x_i+","+y_i+")";
+					x = -1;
+					y = -1;
+					if(region_2=="0000"){
+						x_i = x2;
+						y_i = y2;
+					}
+					else{
+						intersect_boundary =  intersect(region_2);
+						select_intersect_boundary(intersect_boundary, region_1);
+						if(x==-1){
+							y_i = y;
+							x_i = x1+(y_i-y1)/slop_m;
+						}
+						else{
+							x_i = x;
+							y_i = y1+slop_m*(x_i-x1);
+						}
+					}
+					line_string_2 = "Line_"+i+" Point_2("+x_i+","+y_i+")";
+					x = -1;
+					y = -1;
+				}
+				string += "<tr><td>Line_"+i+"</td><td>"+line_string_c+"</td><td>"+line_string_1+"<br>"+line_string_2+"</td><tr>";
+			}
+			string += "</table>";
+			document.getElementById("result").innerHTML = string;
+		}
+		function select_intersect_boundary(intersect_boundary, region_2){
+			if(intersect_boundary == 1){
+				y = y_max;
+			}
+			else if(intersect_boundary == 2){
+				y = y_min;
+			}
+			else if(intersect_boundary == 3){
+				x = x_max;
+			}
+			else if(intersect_boundary == 4){
+				x = x_min;
+			}
+			else{
+				intersect_boundary =  intersect(region_2);
+				if(intersect_boundary == 1){
+					y = y_max;
+				}
+				else if(intersect_boundary == 2){
+					y = y_min;
+				}
+				else if(intersect_boundary == 3){
+					x = x_max;
+				}
+				else if(intersect_boundary == 4){
+					x = x_min;
+				}
+			}
+		}
+		function intersect(r){
+			for(var i=0; i<4; i++){
+				if(r[i] == "1"){
+					return i+1;
+				}
+			}
+			return 0;
+		}
+		function clipping_candidate(r1, r2){
+			for(var i=0; i<4; i++){
+				if(bitwise_and(r1[i], r2[i]) == "1"){
+					return false;
+				}
+			}
+			return true;
+		}
+		function bitwise_and(bit1, bit2){
+			if(bit1 == "1" && bit2 == "1"){
+				return "1";
+			}
+			else{
+				return "0";
+			}
+		}
+		function region(x, y){
+			if(y > y_max){
+				if(x < x_min){
+					return "1001";
+				}
+				else if(x > x_max){
+					return "1010";
+				}
+				else{
+					return "1000";
+				}
+			}
+			else if(y < y_min){
+				if(x < x_min){
+					return "0101";
+				}
+				else if(x > x_max){
+					return "0110";
+				}
+				else{
+					return "0100";
+				}
+			}
+			else{
+				if(x < x_min){
+					return "0001";
+				}
+				else if(x > x_max){
+					return "0010";
+				}
+				else{
+					return "0000";
+				}
+			}
+		}
+		function add_input(){
+			line_num++;
+			var temp_id = "Line"+line_num;
+			var tr = document.createElement('tr');
+			var td =  document.createElement('td');
+			var text =  document.createTextNode("Enter Line "+line_num+"(x1,y1,x2,y2):");
+			td.appendChild(text);
+			tr.appendChild(td);
+			td =  document.createElement('td');
+			var inp =  document.createElement('input');
+			inp.setAttribute("type", 'text');
+			inp.setAttribute('id', temp_id);
+			td.appendChild(inp);
+			tr.appendChild(td);
+			var table = document.getElementById('input_table');
+			table.appendChild(tr);
+		}
+	</script>
+</body>
+</html>
